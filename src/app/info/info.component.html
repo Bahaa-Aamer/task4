@@ -12,6 +12,18 @@
         formControlName="title"
         ngModel
       />
+      <div
+        style="
+          color: red;
+          font-size: 15px;
+          margin: 0;
+          font-weight: bold;
+          position: absolute;
+          top: 40%;
+        "
+      >
+        <small *ngIf="matchingTitle">this task is already existed</small>
+      </div>
 
       <h2>Description</h2>
       <textarea
@@ -80,4 +92,8 @@
     </table>
   </div>
   <!-- ------------- -->
+  <select (change)="changeLang($event.target)">
+    <option value="en" [selected]="lang == 'en'">EN</option>
+    <option value="ar" [selected]="lang == 'ar'">AR</option>
+  </select>
 </div>
