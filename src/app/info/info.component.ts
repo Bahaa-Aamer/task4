@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
-import { OnInit, ViewChild } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  NgControl,
-  Validators,
-  ValidationErrors,
-  AbstractControl,
-  ValidatorFn,
-} from '@angular/forms';
+import { OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-info',
@@ -19,12 +12,17 @@ export class InfoComponent implements OnInit {
   form: FormGroup;
   data = [];
   matchingTitle: boolean = false;
-  lang;
-  constructor() {}
+  lang: any;
+  constructor(public translateService: TranslateService) {
+    translateService.setDefaultLang('en');
+    //  the lang to use if the selected lang is not available
+    // translateService.use('en');
+    // -------------
+  }
 
   ngOnInit(): void {
-    this.lang = localStorage.getItem('lang') ;
-
+    this.lang = localStorage.getItem('lang');
+    this.translateService.use(this.lang);
     this.form = new FormGroup({
       title: new FormControl(null, [
         Validators.required,
@@ -33,11 +31,11 @@ export class InfoComponent implements OnInit {
       description: new FormControl(null, [
         Validators.required,
         Validators.minLength(15),
-        Validators.pattern(/^[a-zA-Z0-9 ]+$/),
+        Validators.pattern(/^[a-zA-Z0-9\u0600-\u06FF ]+$/),
       ]),
     });
-
   }
+
   submit(task: { title: string; description: string }) {
     if (this.form.status != 'INVALID') {
       this.data.push(task);
@@ -63,7 +61,9 @@ export class InfoComponent implements OnInit {
   changeLang(lang) {
     const selectedLang = lang.value;
     localStorage.setItem('lang', selectedLang);
-    console.log(selectedLang);
+
+  
     window.location.reload();
+    
   }
 }

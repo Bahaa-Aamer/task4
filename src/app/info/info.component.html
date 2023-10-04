@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container" [ngClass]="{arabicMode: lang == 'ar'}">
   <!-- data form -->
   <div class="form-container">
     <form class="form" [formGroup]="form" (ngSubmit)="submit(form.value)">
-      <p class="title">Add Task</p>
+      <p class="title">{{ "Add Task" | translate }}</p>
 
-      <h2>Title</h2>
+      <h2>{{ "Title" | translate }}</h2>
       <input
         type="text"
         class="input"
@@ -22,10 +22,12 @@
           top: 40%;
         "
       >
-        <small *ngIf="matchingTitle">this task is already existed</small>
+        <small *ngIf="matchingTitle">{{
+          "this task is already existed" | translate
+        }}</small>
       </div>
 
-      <h2>Description</h2>
+      <h2>{{ "Description" | translate }}</h2>
       <textarea
         placeholder=""
         type="text"
@@ -36,27 +38,27 @@
       >
       </textarea>
 
-      <button type="submit" class="submit">ADD</button>
+      <button type="submit" class="submit">{{ "ADD" | translate }}</button>
     </form>
   </div>
   <!-- -------------------------------------------- -->
 
   <!-- display tasks list -->
   <div class="data-list">
-    <h2 class="list-title">All tasks</h2>
+    <h2 class="list-title">{{ "All tasks" | translate }}</h2>
     <br />
     <table>
       <tr style="background-color: rgba(31, 31, 113, 0.425); width: 100%">
         <th style="width: 8%"></th>
-        <th style="width: 30%">Title</th>
-        <th style="width: 60px">Description</th>
+        <th style="width: 30%">{{ "Title" | translate }}</th>
+        <th style="width: 60px">{{ "Description" | translate }}</th>
       </tr>
       <tr *ngFor="let item of data; index as num" style="width: 100%">
         <td>{{ num + 1 }}</td>
         <td style="width: 30%">{{ item.title }}</td>
         <td style="width: 85%; display: flex">
           {{ item.description }}
-          <div class="btnsContainer">
+          <div class="btnsContainer" [ngClass]="{btnsContainerInArabic: lang == 'ar'}">
             <input
               type="checkbox"
               class="cbx"
@@ -64,14 +66,14 @@
               style="display: none"
               name="cbx{{ num }}"
             />
-            <label for="cbx{{ num }}" class="check">
+            <label for="cbx{{ num }}" class="check" [ngClass]="{checkinarabic: lang == 'ar'}">
               <svg width="18px" height="18px" viewBox="0 0 18 18">
                 <path
                   d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"
                 ></path>
                 <polyline points="1 9 7 14 15 4"></polyline>
               </svg> </label
-            ><button class="btn" (click)="ondelete(num)">
+            ><button class="btn" (click)="ondelete(num)" [ngClass]="{btninarabic: lang == 'ar'}">
               <svg
                 viewBox="0 0 15 17.5"
                 height="17.5"
@@ -92,8 +94,10 @@
     </table>
   </div>
   <!-- ------------- -->
+
+  <!-- translation btn -->
   <select (change)="changeLang($event.target)">
-    <option value="en" [selected]="lang == 'en'">EN</option>
-    <option value="ar" [selected]="lang == 'ar'">AR</option>
+    <option value="en" [selected]="lang == 'en'" >EN</option>
+    <option value="ar" [selected]="lang == 'ar'" >AR</option>
   </select>
 </div>
