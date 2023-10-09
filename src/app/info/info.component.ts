@@ -13,16 +13,10 @@ export class InfoComponent implements OnInit {
   data = [];
   matchingTitle: boolean = false;
   lang: any;
-  constructor(public translateService: TranslateService) {
-    translateService.setDefaultLang('en');
-    //  the lang to use if the selected lang is not available
-    // translateService.use('en');
-    // -------------
-  }
+  constructor(public translateService: TranslateService) {}
 
   ngOnInit(): void {
-    this.lang = localStorage.getItem('lang');
-    this.translateService.use(this.lang);
+  
     this.form = new FormGroup({
       title: new FormControl(null, [
         Validators.required,
@@ -61,9 +55,13 @@ export class InfoComponent implements OnInit {
   changeLang(lang) {
     const selectedLang = lang.value;
     localStorage.setItem('lang', selectedLang);
-
-  
-    window.location.reload();
-    
+    const Lang = localStorage.getItem('lang');
+    this.lang = Lang;
+    this.translateService.use(Lang);
+    if (Lang === 'ar') {
+      document.dir = 'rtl';
+    } else {
+      document.dir = 'ltr';
+    }
   }
 }
